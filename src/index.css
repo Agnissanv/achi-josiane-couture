@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-sable: #F7F3EC;
+    --color-sable2: #EDE8DE;
+    --color-ocre: #8B5E3C;
+    --color-or: #C4973A;
+    --color-ebene: #1A1208;
+    --color-cream: #FAF8F4;
+    scroll-behavior: smooth;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    background-color: var(--color-sable);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    color: var(--color-ebene);
+    background-color: var(--color-sable);
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-or);
+    color: var(--color-sable);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-sable2);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ocre);
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* Grain texture overlay */
+  .grain-overlay {
+    position: fixed;
+    inset: -200%;
+    width: 400%;
+    height: 400%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 9999;
+    animation: grain 0.5s steps(1) infinite;
+  }
+
+  /* Text mask reveal */
+  .text-clip {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Gold gradient text */
+  .gold-gradient {
+    background: linear-gradient(135deg, #C4973A 0%, #E8C96A 40%, #C4973A 70%, #9A7025 100%);
+    background-size: 200% auto;
+    animation: shimmer 3s linear infinite;
+  }
+
+  /* Decorative divider */
+  .divider-or {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .divider-or::before,
+  .divider-or::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-or), transparent);
+  }
+
+  /* Luxury button */
+  .btn-luxury {
+    @apply relative inline-flex items-center gap-3 px-8 py-4 font-sans font-medium tracking-widest text-xs uppercase overflow-hidden;
+    letter-spacing: 0.18em;
+    transition: color 0.4s ease;
+  }
+  .btn-luxury::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-ocre);
+    transform: translateX(-101%);
+    transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  .btn-luxury:hover::before {
+    transform: translateX(0);
+  }
+  .btn-luxury:hover {
+    color: var(--color-sable);
+  }
+
+  /* Outline button */
+  .btn-outline {
+    @apply relative inline-flex items-center gap-3 px-8 py-4 font-sans font-medium tracking-widest text-xs uppercase border border-current overflow-hidden;
+    letter-spacing: 0.18em;
+    transition: color 0.4s ease;
+  }
+
+  /* Section labels */
+  .section-label {
+    @apply text-xs font-sans font-medium tracking-ultra text-or uppercase;
+    letter-spacing: 0.25em;
+  }
+
+  /* Image hover scale */
+  .img-hover {
+    overflow: hidden;
+  }
+  .img-hover img {
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .img-hover:hover img {
+    transform: scale(1.06);
+  }
+
+  /* Page wrapper */
+  .page-wrapper {
+    @apply min-h-screen bg-sable;
+  }
+}
+
+@layer utilities {
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
+  .mask-image-bottom {
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  }
+}
+
+/* Framer motion page transition helper */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
